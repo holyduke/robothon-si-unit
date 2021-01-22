@@ -9,20 +9,20 @@ class Csvreader:
 
   def parse_csv(self, csv_name):
     path = self.path_to_csv + csv_name
-    with open(path) as csv_file:
+    with open(path, encoding='utf-8') as csv_file:
       csv_reader = csv.reader(csv_file, delimiter=',')
       line_count = 0
       eshop = Eshop(csv_name)
-      try:
-        for row in csv_reader:
-            if line_count == 0:
-                print(f'Column names are {", ".join(row)}')
-                line_count += 1
-            else:
-                eshop.addProduct(row)
-                line_count += 1
-      except:
-        print("hovno")
+      # try:
+      for row in csv_reader:
+          if line_count == 0:
+              print(f'Column names are {", ".join(row)}')
+              line_count += 1
+          else:
+              eshop.addProduct(row)
+              line_count += 1
+      # except:
+      #   print("hovno")
       print(f'Processed {line_count} lines.')
 
       return eshop
