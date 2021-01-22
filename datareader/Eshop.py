@@ -6,5 +6,5 @@ class Eshop:
     self.products = []
 
   def addProduct(self, product_row):
-    self.products.append(Product(product_row[3], product_row[5]))
+    self.products.append(Product(product_row[3], product_row[2], product_row[5]))
   
