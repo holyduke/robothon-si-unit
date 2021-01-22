@@ -1,0 +1,5 @@
+numpy
+matplotlib
+gensim
+nltk
+ftfy
