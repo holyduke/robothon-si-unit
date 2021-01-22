@@ -11,6 +11,3 @@ class Product:
   def has_valid_data(json_str):
     json_obj = json.loads(fix_encoding(json_str))
     return json_obj if 'name' in json_obj else None
-
-
-
