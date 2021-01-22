@@ -1,7 +1,9 @@
 import csv
+import sys
 import os
 from .Eshop import Eshop
 
+csv.field_size_limit(13107200)
 
 class Csvreader:
   def __init__(self, path_to_csv):
