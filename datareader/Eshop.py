@@ -5,6 +5,6 @@ class Eshop:
     self.name = name
     self.products = []
 
-  def addProduct(self,new_product):
-    self.products.append(Product(new_product))
+  def addProduct(self, product_row):
+    self.products.append(Product(product_row[3], product_row[5]))
   

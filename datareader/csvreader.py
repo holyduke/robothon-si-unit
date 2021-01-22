@@ -19,8 +19,7 @@ class Csvreader:
                 print(f'Column names are {", ".join(row)}')
                 line_count += 1
             else:
-                # print(f'context\t{row[0]} has url \t{row[3]} and json \t{row[5]}.')
-                eshop.addProduct(row[3])
+                eshop.addProduct(row)
                 line_count += 1
       except:
         print("hovno")
