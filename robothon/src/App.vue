@@ -55,7 +55,7 @@
                   </v-list-item-content>
                 </template>
 
-                <div  v-if="product.duplicates.length">
+                <template  v-if="product.duplicates.length">
                   <h3 class="ml-2">Same products in {{ eshopname }}</h3>
                   <v-list-item
                     v-for="duplicatID in product.duplicates"
@@ -65,12 +65,11 @@
                     <v-list-item-content>
                       <v-list-item-title>
                         {{findByIdInEshop(duplicatID, data[eshopname]).name}}
-                        <price :price="findByIdInEshop(duplicatID, data[eshopname]).price"/>
-
+                        <price :price="findByIdInEshop(duplicatID,data[eshopname]).price"/>
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
-                </div>
+                </template>
 
                 <h3 class="ml-2">Same products by competitions</h3>
                 <v-list-item
@@ -80,10 +79,8 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title>
-                      <similiar-listing
-                        :eshopname="key"
-                        :product="findByIdInEshop(product.similar_listings[key],data[key])"
-                      />
+                      {{key}}: {{findByIdInEshop(product.similar_listings[key],data[key]).name}}
+                      <price :price="findByIdInEshop(product.similar_listings[key],data[key]).price"/>
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -99,7 +96,7 @@
 <script>
 // import alzaData from "@/dataLoader";
 import Products from "@/components/Products.vue";
-import SimiliarListing from "./components/SimiliarListing";
+// import SimiliarListing from "./components/SimiliarListing";
 import price from '@/components/Price'
 
 
@@ -144,7 +141,7 @@ export default {
   },
 
   components: {
-    SimiliarListing,
+    // SimiliarListing,
     price
   },
 
