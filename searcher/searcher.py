@@ -9,7 +9,7 @@ def create_index(name):
         name=KEYWORD(stored=True),
         numbers=KEYWORD(stored=True),
         strings=KEYWORD(stored=True),
-        id=ID(stored=True)
+        id=NUMERIC(stored=True)
     )
     try:
         os.makedirs("index/" + name)
@@ -41,11 +41,11 @@ def search(ix, tags):
         name_terms = [Term('name', n) for n in tags["name"]]
         string_terms = [Term('strings', n) for n in tags["strings"]]
         number_terms = [Term('numbers', n) for n in tags["numbers"]]
-        all_terms = [*name_terms, *string_terms, *number_terms]
+        all_terms = [*name_terms, *number_terms, *string_terms]
 
         q = Or(all_terms)
         results = searcher.search(q, terms=True)
         print(results[0].matched_terms())
-        print([[x.score/len(all_terms), x] for x in results])
+        #print([[x.score/len(all_terms), x] for x in results])
         match = [results[0].score/len(all_terms), results[0]['id']]
     return match
