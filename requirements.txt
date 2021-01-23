@@ -3,3 +3,5 @@ matplotlib
 gensim
 nltk
 ftfy
+unicodedata
+pickle-mixin

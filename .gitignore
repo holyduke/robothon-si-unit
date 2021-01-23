@@ -2,3 +2,6 @@ data
 *.csv
 __pycache__
 .vscode
+index
+test
+pickle-data
