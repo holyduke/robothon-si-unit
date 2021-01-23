@@ -11,19 +11,19 @@ def get_props(product):
 def match_duplicites(eshop, eshop_ix):
     num_of_duplicites = 0
     for product in eshop.products:
-        results = search(eshop_ix, get_props(product), 3)
+        results = search(eshop_ix, get_props(product), 4)
         for result in results:
             if result[0] <= 0.99:
                 continue
             product_again = eshop.products[result[1]]
             if product_again.id == product.id:
                 continue
-            if len(product.data['duplicates']) == 0 and len(product.data['duplicates']) == 0:
+            if len(product.data['duplicates']) == 0 and len(product_again.data['duplicates']) == 0:
                 num_of_duplicites += 1
             product.data['duplicates'].add(product_again.id)
             #print('Found duplicate! ' + product.data['name'] + ' == ' + product_again.data['name'])
             #print(product.url + ' == ' + product_again.url)
-            if len(product.data['duplicates']) >= 3:
+            if len(product.data['duplicates']) >= 4:
                 print('------------------OSHRIRIRIT---------------------')
 
     print('Found ' + str(num_of_duplicites) + ' duplicates in ' + str(len(eshop.products)) + ' items')
