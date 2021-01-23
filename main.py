@@ -1,14 +1,11 @@
 
-from datareader.csvreader import Csvreader
 from preprocessor import Preprocessor
+from loadDataSets import loadDataSets
 
+USE_PICKLE = True
 
 def main():
-    csv_reader = Csvreader("data/")
-    # czc = csv_reader.parse_csv("czc.csv")
-    alza = csv_reader.parse_csv("alza.csv")
-    mironet = csv_reader.parse_csv("mironet.csv")
-    # mall = csv_reader.parse_csv("mall.csv")
+    czc, alza, mironet, mall = loadDataSets(USE_PICKLE)    
 
     preprocessor = Preprocessor()
     # fckng_mega_shop = [*czc.products, *alza.products,
