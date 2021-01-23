@@ -64,9 +64,7 @@
                   >
                     <v-list-item-content>
                       <v-list-item-title>
-                        <!-- Price:
-                        {{ findByIdInEshop(duplicatID, data[eshopname]).price }}
-                        CZK -->
+                        {{findByIdInEshop(duplicatID, data[eshopname]).name}}
                         <price :price="findByIdInEshop(duplicatID, data[eshopname]).price"/>
 
                       </v-list-item-title>
