@@ -144,7 +144,7 @@ class Preprocessor():
                 unit_match = self.all_units_regex.search(
                     property["value"], re.IGNORECASE)
             if unit_match is None:
-                return [str(round(float(num))) for num in numbers]
+                return [str(round(float(num))) for num in numbers if len(str(round(float(num)))) > 2]
 
             # Unit found
             unit = unit_match.group(2)
@@ -153,7 +153,8 @@ class Preprocessor():
                     # try:
                     numbers = [str(round(float(
                         number) * self.units[unit_key]["conversions"][unit])) for number in numbers]
-                    return [number + (self.units[unit_key]["default"] if self.units[unit_key]["default"] is not None else unit) for number in numbers]
+                    numbers = [num + (self.units[unit_key]["default"] if self.units[unit_key]["default"] is not None else unit) for num in numbers]
+                    return [num for num in numbers if len(num) > 2]
                     # except:
                     #     print("Error converting property number.")
                     #     return None
