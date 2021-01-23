@@ -94,11 +94,14 @@ class Preprocessor():
     def preprocess_data(self, products):
         for product in products:
             self._extract_key_features(product)
-            print(product)
+        pass
 
     def _extract_key_features(self, product):
         product.data["key_numbers"] = set()
         product.data["key_words"] = set()
+
+        if "additionalProperty" not in product.data:
+            return
 
         for ad in product.data["additionalProperty"]:
             found_number = self._parse_value(ad)
@@ -106,7 +109,8 @@ class Preprocessor():
                 for num in found_number:
                     product.data["key_numbers"].add(num.lower().strip())
             else:
-                product.data["key_words"].add(ad["value"].lower().strip())
+                for word in ad["value"].lower().split():
+                    product.data["key_words"].add(word)
 
     def _parse_value(self, property):
 
