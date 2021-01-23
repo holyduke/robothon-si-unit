@@ -14,7 +14,7 @@ class Csvreader:
     with open(path, encoding='utf-8') as csv_file:
       csv_reader = csv.reader(csv_file, delimiter=',')
       line_count = 0
-      eshop = Eshop(csv_name)
+      eshop = Eshop(csv_name.replace(".csv",""))
       # try:
       for row in csv_reader:
           if line_count == 0:
