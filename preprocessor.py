@@ -93,6 +93,7 @@ class Preprocessor():
     def preprocess_data(self, products):
         for product in products:
             self._extract_key_features(product)
+            product.data["key_name"] = product.data["name"].split()
         pass
 
     def _extract_key_features(self, product):
