@@ -46,7 +46,7 @@ class Preprocessor():
                     "hz": 1,
                 }
             },
-            "freq": {
+            "time": {
                 "pattern": r"h|dnů|dnu|d|min|minut|minuty|s|ms|ns",
                 "default": "s",
                 "conversions": {
@@ -70,6 +70,22 @@ class Preprocessor():
                     "gb": 1_000,
                     "mb": 1,
                     "kb": 0.001,
+                }
+            },
+            "power": {
+                "pattern": r"kw|w",
+                "default": "w",
+                "conversions": {
+                    "kw": 1_000,
+                    "w": 1,
+                }
+            },
+            "amperhour": {
+                "pattern": r"ah|mah",
+                "default": "mah",
+                "conversions": {
+                    "ah": 1_000,
+                    "mah": 1,
                 }
             },
             "others": {
