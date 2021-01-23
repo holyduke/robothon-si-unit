@@ -135,7 +135,7 @@ class Preprocessor():
             found_number = self._parse_value(ad)
             if found_number is not None:
                 for num in found_number:
-                    product.data["key_numbers"].add(num.lower().strip())
+                    product.data["key_numbers"].add(num)
             else:
                 for word in self._parse_sentence(ad["value"]):
                     product.data["key_words"].add(word)
@@ -176,7 +176,7 @@ class Preprocessor():
     def append_unit(self, number, unit):
         for unit_key in self.units:
             if unit in self.units[unit_key]["pattern"].split("|"):
-                final_string = str(round(float(number) * self.units[unit_key]["conversions"][unit]))
+                final_string = str(round(float(number.replace(",", ".")) * self.units[unit_key]["conversions"][unit]))
                 final_string += self.units[unit_key]["default"] if self.units[unit_key]["default"] is not None else unit
                 return final_string
         return str(number)
@@ -191,20 +191,20 @@ class Preprocessor():
         numbers = self.number_with_regex.findall(description)
         for number in numbers:
             description = description.replace(number, "")
-            try:
-                value = self.numbers_regex.search(number).group(0)
-                unit = self.all_units_regex_alone.search(number)
+            # try:
+            value = self.numbers_regex.search(number).group(0)
+            unit = self.all_units_regex_alone.search(number)
 
-                if unit is not None:
-                    unit = unit.group(2)
+            if unit is not None:
+                unit = unit.group(2)
 
-                    final_string = self.append_unit(value, unit)
-                    if len(final_string) > 2:
-                        final_numbers.append(final_string)
-                else:
-                    final_numbers.append(str(value))
-            except:
-                print("Could not parse value from description.")
+                final_string = self.append_unit(value, unit)
+                if len(final_string) > 2:
+                    final_numbers.append(final_string)
+            else:
+                final_numbers.append(str(value))
+            # except:
+            #     print("Could not parse value from description.")
             
 
             final_words = self._parse_sentence(description)
