@@ -30,7 +30,7 @@ def add_documents(ix, docs):
             name=name,
             numbers=numbers,
             strings=strings,
-            id=doc.id
+            id=idx
         )
     writer.commit()
     print('added ' + str(len(docs)) + ' documents in total.')
