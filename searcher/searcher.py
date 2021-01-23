@@ -21,9 +21,9 @@ def create_index(name):
 def add_documents(ix, docs):
     writer = ix.writer()
     for [idx, doc] in enumerate(docs):
-        name=" ".join(doc.data['key_name']) if isinstance(doc.data['key_name'], set) else doc.data['key_name']
-        numbers=" ".join(doc.data['key_numbers']) if isinstance(doc.data['key_numbers'], set) else doc.data['key_numbers']
-        strings=" ".join(doc.data['key_words']) if isinstance(doc.data['key_words'], set) else doc.data['key_words']
+        name=" ".join(doc.data['key_name'])
+        numbers=" ".join(doc.data['key_numbers'])
+        strings=" ".join(doc.data['key_words'])
         if idx > 0 and idx % 100 == 0:
             print('added ' + str(idx) + ' documents...')
         writer.add_document(
