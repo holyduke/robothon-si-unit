@@ -115,7 +115,8 @@ class Preprocessor():
         for product in products:
             self._extract_key_features(product)
 
-            product.data["key_name"] = product.data["name"].split()
+            product.data["key_name"] = set(product.data["name"].split())
+            
             product.data["duplicates"] = set()
             product.data["similar_listings"] = {}
 
@@ -188,9 +189,6 @@ class Preprocessor():
     def _parse_description(self, description):
         final_numbers = []
         final_words = []
-        if "\"" in description:
-            # print(description)
-            pass
         numbers = self.number_with_regex.findall(description)
         for number in numbers:
             description = description.replace(number, "")
@@ -222,5 +220,6 @@ class Preprocessor():
                     used_key_words[word] = 1
                 else:
                     used_key_words[word] += 1
+        sorted_frequency = sorted(used_key_words.items(), key=lambda x: x[1], reverse=True)
         # print(used_key_words)
 
