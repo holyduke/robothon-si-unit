@@ -19,68 +19,60 @@ def main():
         'alza':[
             {
                 'id': 8,
-                'url': 'string',
-                'data': {
-                    'name': "Hodinky",
-                    'description': "Hodinky",
-                    'brand': "znacka",
-                    'price': "cena",
-                    'duplicates': [1, 5, 7],
-                    'similar_listings': {
-                        'mall': 'we85',
-                        'czc': 'efeš',
-                        'mironet':  '8787'
-                    },
-                }
+                'url': 'alza url product8',
+                'name': "Hodinky",
+                'description': "Hodinky",
+                'brand': "znacka",
+                'price': "cena",
+                'duplicates': [1, 5, 7],
+                'similar_listings': {
+                    'mall': '555',
+                    'czc': 'efeš',
+                    'mironet':  '8787'
+                },
             },
             {
                 'id': 9,
-                'url': 'https://stackoverflow.com/questions/45565349/how-to-acces-external-json-file-objects-in-vue-js-app',
-                'data': {
-                    'name': "Notebook toshiuba",
-                    'description': "popis",
-                    'brand': "znacka",
-                    'price': "cena",
-                    'duplicates': [1, 5, 7],
-                    'similar_listings': {
-                        'mall': 'we85',
-                        'czc': 'efeš',
-                        'mironet':  '8787',
-                    }
+                'url': 'https://stackoverflow.com/questions/45',
+                'name': "Notebook toshiuba",
+                'description': "popis",
+                'brand': "znacka",
+                'price': "cena",
+                'duplicates': [1, 5, 7],
+                'similar_listings': {
+                    'mall': 'w666e85',
+                    'czc': 'efeš',
+                    'mironet':  '8787',
                 }
             }
         ],
         'czc':[
             {
-                'id': 8,
-                'url': 'https://stackoverflow.com/questions/45565349/how-to-acces-external-json-file-objects-in-vue-js-app',
-                'data': {
-                    'name': "TV LG",
-                    'description': "popis",
-                    'brand': "znacka",
-                    'price': "cena",
-                    'duplicates': [1, 5, 7],
-                    'similar_listings': {
-                        'mall': 'we85',
-                        'czc': 'efeš',
-                        'mironet':  '8787'
-                    },
-                }
+                'id': 10,
+                'url': 'https://stackoverflow.com/czczczczczc',
+                'name': "TV LG",
+                'description': "popis",
+                'brand': "znacka",
+                'price': "cena",
+                'duplicates': [1, 5, 7],
+                'similar_listings': {
+                    'alza': '8',
+                    'czc': 'hovnooooo',
+                    'mironet':  '8787'
+                },
             },
             {
-                'id': 9,
-                'url': 'https://stackoverflow.com/questions/45565349/how-to-acces-external-json-file-objects-in-vue-js-app',
-                'data': {
-                    'name': "Notebook Apple",
-                    'description': "popis",
-                    'brand': "znacka",
-                    'price': "cena",
-                    'duplicates': [1, 5, 7],
-                    'similar_listings': {
-                        'mall': 'we85',
-                        'czc': 'efeš',
-                        'mironet':  '8787',
-                    }
+                'id': 11,
+                'url': 'https://stackoverflow.com/-in-vue-js-app',
+                'name': "Notebook Apple",
+                'description': "popis",
+                'brand': "znacka",
+                'price': "cena",
+                'duplicates': [1, 5, 7],
+                'similar_listings': {
+                    'mall': 'we85',
+                    'czc': 'efeš',
+                    'mironet':  '8787',
                 }
             }
         ]

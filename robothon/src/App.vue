@@ -9,14 +9,14 @@
     </v-app-bar>
 
     <v-main>
-      <v-text-field
-      class="my-5 mx-10"
-        label="Search product"
-        v-model="search_product"
-      ></v-text-field>
+      <v-select
+        class="ma-10"
+        :items="items"
+        v-model="selected"
+        label="Choose eshop view"
+      ></v-select>
       <v-container grid-list-xs class="eshops">
-        <Products :eshop="data.alza" eshop_name="Alza"/>
-        <Products :eshop="data.czc" eshop_name="CZC"/>
+        <Products :eshops="data" :eshop="data[selected]" :eshopname="selected"/>
       </v-container>
     </v-main>
   </v-app>
@@ -29,6 +29,13 @@ import Products from '@/components/Products.vue';
 export default {
   name: 'App',
 
+  data() {
+    return {
+      items: ['alza', 'czc', 'mironet', 'mall'],
+      selected: 'alza'
+    }
+  },
+
   created() {
     this.data = data;
     console.log("data",data);
@@ -37,10 +44,6 @@ export default {
   components: {
     Products,
   },
-
-  data: () => ({
-    //
-  }),
 };
 </script>
 

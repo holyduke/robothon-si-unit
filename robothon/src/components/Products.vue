@@ -1,7 +1,7 @@
 <template>
   <div class="mx-5">
     <h1 class="eshopname">
-      {{eshop_name}}
+      {{eshopname}}
     </h1>
     <v-card
       class="mx-auto"
@@ -16,18 +16,31 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title v-text="product.data.name"></v-list-item-title>
+              <v-list-item-title v-text="product.name"></v-list-item-title>
             </v-list-item-content>
           </template>
 
+          <h3 class="ml-2">Same products in {{eshopname}}</h3>
           <v-list-item
-            v-for="product in eshop"
-            :key="product.id"
+            v-for="duplicatID in product.duplicates"
+            :key="duplicatID"
           >
-            <v-list-item-content>
-              <v-list-item-title v-text="product.url"></v-list-item-title>
+            <v-list-item-content >
+              <v-list-item-title >
+                Price: {{findByIdInEshop(duplicatID, eshops[eshopname]).price}} CZK         
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
+          
+          <h3 class="ml-2" >Same products by competitions</h3>
+            <v-list-item v-for="(item, key) in product.similar_listings" :key="key">
+              <v-list-item-content>
+                <v-list-item-title >
+                  <similiar-listing :eshopname="key" :product="findByIdInEshop(product.similar_listings[key], eshops[key])" />                  
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
         </v-list-group>
       </v-list>
     </v-card>
@@ -35,13 +48,17 @@
 </template>
 
 <script>
+import SimiliarListing from './SimiliarListing'
+
 export default {
   name: 'Products',
 
-  props: ['eshop', "eshop_name"],
+  props: ['eshops','eshop', "eshopname"],
 
-  computed()  {
-    tempList = null,
+  computed:  {
+    tempList: function() {
+      return []
+    } 
   },
 
   created() {
@@ -50,9 +67,23 @@ export default {
 
   data() {
     return {
-      something: 0
     }
   },
+
+  methods: {
+    findByIdInEshop(id_tosearch, eshop) {
+      console.log("eshop",eshop)
+      console.log("looking for id",id_tosearch)
+      let foundproduct = eshop.find(product => {
+        return product.id == id_tosearch
+      })
+      return foundproduct;
+    }
+  },
+
+  components: {
+    SimiliarListing
+  }
 };
 </script>
 
