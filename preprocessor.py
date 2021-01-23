@@ -72,6 +72,22 @@ class Preprocessor():
                     "kb": 0.001,
                 }
             },
+            "power": {
+                "pattern": r"kw|w",
+                "default": "w",
+                "conversions": {
+                    "kw": 1_000,
+                    "w": 1,
+                }
+            },
+            "amperhour": {
+                "pattern": r"ah|mah",
+                "default": "mah",
+                "conversions": {
+                    "ah": 1_000,
+                    "mah": 1,
+                }
+            },
             "others": {
                 "pattern": r"ghz",
                 "default": None,
