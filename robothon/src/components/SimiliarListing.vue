@@ -1,17 +1,22 @@
 <template>
   <div>
     {{eshopname}}: {{product.name}}
-    <br>
-    Price: {{product.price}} CZK
+    <price :price="product.price"/>
   </div>
 </template>
 
 <script>
+import price from './Price'
+
 export default {
 
   name: 'SimiliarListing',
 
-  props: ['product', 'eshopname']
+  props: ['product', 'eshopname'],
+
+  components: {
+    price
+  }
 };
 </script>
 

@@ -1,3 +1,3 @@
-const data = require("../.././data.json");
+const alzaData = require("../.././alza.json");
 
-export default data
+export default alzaData
