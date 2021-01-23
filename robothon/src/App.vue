@@ -12,7 +12,7 @@
         label="Choose eshop view"
       ></v-select>
       <v-container grid-list-xs class="eshops">
-        <div class="mx-5 fullw">
+        <div class="mx-5 fullw" >
           <h1 class="eshopname">
             {{ eshopname }}
           </h1>
@@ -22,7 +22,7 @@
                 v-for="product in eshop"
                 :key="product.id"
                 v-model="product.active"
-                no-action
+                no-action                
               >
                 <template v-slot:activator>
                   <v-list-item-content>
@@ -31,6 +31,7 @@
                         <v-col cols="8" class="flexx">
                           <h3>
                             {{ product.name }}
+                             <price :price="product.price"/>
                           </h3>
                         </v-col>
                         <v-col cols="4" class="d-flex justify-end">
@@ -54,7 +55,7 @@
                   </v-list-item-content>
                 </template>
 
-                <div v-if="product.duplicates.length">
+                <div  v-if="product.duplicates.length">
                   <h3 class="ml-2">Same products in {{ eshopname }}</h3>
                   <v-list-item
                     v-for="duplicatID in product.duplicates"
@@ -63,14 +64,11 @@
                   >
                     <v-list-item-content>
                       <v-list-item-title>
-                        Price:
+                        <!-- Price:
                         {{ findByIdInEshop(duplicatID, data[eshopname]).price }}
-                        CZK
-                        <price
-                          :price="
-                            findByIdInEshop(duplicatID, data[eshopname]).price
-                          "
-                        />
+                        CZK -->
+                        <price :price="findByIdInEshop(duplicatID, data[eshopname]).price"/>
+
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -86,12 +84,7 @@
                     <v-list-item-title>
                       <similiar-listing
                         :eshopname="key"
-                        :product="
-                          findByIdInEshop(
-                            product.similar_listings[key],
-                            data[key]
-                          )
-                        "
+                        :product="findByIdInEshop(product.similar_listings[key],data[key])"
                       />
                     </v-list-item-title>
                   </v-list-item-content>
@@ -109,6 +102,8 @@
 // import alzaData from "@/dataLoader";
 import Products from "@/components/Products.vue";
 import SimiliarListing from "./components/SimiliarListing";
+import price from '@/components/Price'
+
 
 export default {
   name: "App",
@@ -130,15 +125,18 @@ export default {
   },
 
   computed: {
-    data() {
-      if (this.eshopname == "alza") {
-        return this.alzaData;
-      } else if (this.eshopname == "czc") {
-        return this.czcData;
-      } else if (this.eshopname == "mall") {
-        return this.mallData;
-      } else if (this.eshopname == "mironet") {
-        return this.mironetData;
+    data()  {
+      if (this.eshopname=="alza") {
+        return this.alzaData
+      }
+      else if (this.eshopname=="czc") {
+        return this.czcData
+      }
+      else if (this.eshopname=="mall") {
+        return this.mallData
+      }
+      else if (this.eshopname=="mironet") {
+        return this.mironetData
       }
     },
 
@@ -149,6 +147,7 @@ export default {
 
   components: {
     SimiliarListing,
+    price
   },
 
   methods: {
@@ -179,12 +178,13 @@ export default {
 h3 {
   position: relative;
   vertical-align: centered;
-  top: 1em;
+  top: 0.5em;
 }
 
-.fullw {
+.fullw  {
   width: 100%;
 }
+
 </style>
 
 
