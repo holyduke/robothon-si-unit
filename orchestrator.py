@@ -45,7 +45,7 @@ def compare_eshops(one, one_ix, two, two_ix):
         result1 = search(one_ix, get_props(product2), 1)[0]
         product1_again = one.products[result1[1]]
         #print('which in turn found: ' + product1_again.data['name'])
-        if product1.id == product1_again.id:
+        if product1.id in [product1_again.id, *product1_again.data['duplicates']]:
             print('yay, found match!')
             print(product1.data['name'] + " == " + product2.data['name'])
             num_of_matches += 1
