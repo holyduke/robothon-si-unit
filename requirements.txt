@@ -3,4 +3,4 @@ matplotlib
 gensim
 nltk
 ftfy
-unidecode
+unicodedata

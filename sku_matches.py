@@ -13,12 +13,8 @@ def is_products_match(product1, product2):
 def find_matches_by_target(products, target_product):
   matches = [target_product]
   for product in products:
-    try:
-      if is_products_match(product, target_product):
-        matches.append(product)
-    except:
-      pass
-  
+    if is_products_match(product, target_product):
+      matches.append(product)
   return matches
 
 shop_matches = []
