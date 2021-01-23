@@ -39,9 +39,9 @@ def search(ix, tags):
     match = []
     with ix.searcher() as searcher:
         name_terms = [Term('name', n) for n in tags["name"]]
-        string_terms = [Term('strings', n) for n in tags["strings"]]
+        #string_terms = [Term('strings', n) for n in tags["strings"]]
         number_terms = [Term('numbers', n) for n in tags["numbers"]]
-        all_terms = [*name_terms, *number_terms, *string_terms]
+        all_terms = [*name_terms, *number_terms]#, *string_terms]
 
         q = Or(all_terms)
         results = searcher.search(q, terms=True)
