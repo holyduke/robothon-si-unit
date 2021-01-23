@@ -7,7 +7,7 @@ class Preprocessor():
 
         self.units = {
             "length": {
-                "pattern": r"km|m|cm|dm|mm|\"|inch|inches",
+                "pattern": r"km|m|cm|dm|mm|\"|\"|inch|inches",
                 "default": "mm",
                 "conversions": {
                     "km": 1000000,
@@ -16,6 +16,7 @@ class Preprocessor():
                     "cm": 10,
                     "mm": 1,
                     "inch": 25.4,
+                    '"': 25.4,
                     '"': 25.4,
                     'inches': 25.4,
                 }
@@ -104,15 +105,19 @@ class Preprocessor():
 
         self.all_units_regex = re.compile(
             r"([\(\[\{]|\s|^)(" + self.all_units_pattern + r")(\s|$|[\)\]\}])", re.IGNORECASE)
+        self.number_with_regex = re.compile(
+            r"\d+[\,\.]?[\d]+(?:[\(\[\{]|\s|\d|)(?:" + self.all_units_pattern + r")(?:\s|\b|[\)\]\}])", re.IGNORECASE)
         self.numbers_regex = re.compile(r"\d+[\,\.]?[\d]+", re.IGNORECASE)
-
-        self.useless_chars_regex = re.compile(r"[\(\){}\[\]]")
+        self.useless_chars_regex = re.compile(r"([\(\){}\[\],\s])")
 
     def preprocess_data(self, products):
         for product in products:
             self._extract_key_features(product)
             product.data["key_name"] = product.data["name"].split()
+
+        self._remove_frequent(products)
         pass
+   
 
     def _extract_key_features(self, product):
         product.data["key_numbers"] = set()
@@ -121,6 +126,7 @@ class Preprocessor():
         if "additionalproperty" not in product.data.keys():
             return
 
+        # Add key features from aditional properties
         for ad in product.data["additionalproperty"]:
             found_number = self._parse_value(ad)
             if found_number is not None:
@@ -129,6 +135,11 @@ class Preprocessor():
             else:
                 for word in self._parse_word(ad):
                     product.data["key_words"].add(word)
+        
+        # Add key features from description
+        if "description" in product.data.keys():
+            words, numbers = self._parse_description(product.data["description"])
+
 
     def _parse_value(self, property):
         unit = None
@@ -164,4 +175,19 @@ class Preprocessor():
 
     def _parse_word(self, property):
         temp = self.useless_chars_regex.sub("", property["value"])
-        return [x for x in temp.split() if len(x) > 1] 
+        return [x for x in temp.split() if len(x) > 1]
+
+    def _parse_description(self, description):
+        numbers = self.number_with_regex.findall(description)
+        pass
+
+    def _remove_frequent(self, products):
+        used_key_words = {}
+        for product in products:
+            for word in product.data["key_words"]:
+                if word not in used_key_words.keys():
+                    used_key_words[word] = 1
+                else:
+                    used_key_words[word] += 1
+        print(used_key_words)
+
