@@ -188,6 +188,9 @@ class Preprocessor():
     def _parse_description(self, description):
         final_numbers = []
         final_words = []
+        if "\"" in description:
+            # print(description)
+            pass
         numbers = self.number_with_regex.findall(description)
         for number in numbers:
             description = description.replace(number, "")
@@ -219,5 +222,5 @@ class Preprocessor():
                     used_key_words[word] = 1
                 else:
                     used_key_words[word] += 1
-        print(used_key_words)
+        # print(used_key_words)
 
