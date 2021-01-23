@@ -73,11 +73,10 @@ class Preprocessor():
                 }
             },
             "others": {
-                "pattern": r"ghz|px",
+                "pattern": r"ghz",
                 "default": None,
                 "conversions": {
                     "ghz": 1,
-                    "px": 1,
                 }
             }
         }
@@ -100,10 +99,10 @@ class Preprocessor():
         product.data["key_numbers"] = set()
         product.data["key_words"] = set()
 
-        if "additionalProperty" not in product.data:
+        if "additionalproperty" not in product.data.keys():
             return
 
-        for ad in product.data["additionalProperty"]:
+        for ad in product.data["additionalproperty"]:
             found_number = self._parse_value(ad)
             if found_number is not None:
                 for num in found_number:
