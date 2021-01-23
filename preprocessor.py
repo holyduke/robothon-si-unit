@@ -46,7 +46,7 @@ class Preprocessor():
                     "hz": 1,
                 }
             },
-            "freq": {
+            "duration": {
                 "pattern": r"h|dnů|dnu|d|min|minut|minuty|s|ms|ns",
                 "default": "s",
                 "conversions": {
@@ -72,6 +72,22 @@ class Preprocessor():
                     "kb": 0.001,
                 }
             },
+            "power": {
+                "pattern": r"kw|w",
+                "default": "w",
+                "conversions": {
+                    "kw": 1_000,
+                    "w": 1,
+                }
+            },
+            "amperhour": {
+                "pattern": r"ah|mah",
+                "default": "mah",
+                "conversions": {
+                    "ah": 1_000,
+                    "mah": 1,
+                }
+            },
             "others": {
                 "pattern": r"ghz",
                 "default": None,
@@ -83,12 +99,14 @@ class Preprocessor():
 
         self.all_units_pattern = ""
         for key in self.units:
-            self.all_units_pattern += self.units[key]["pattern"]
+            self.all_units_pattern += self.units[key]["pattern"] + "|"
+        self.all_units_pattern.strip("|")
 
         self.all_units_regex = re.compile(
             r"([\(\[\{]|\s|^)(" + self.all_units_pattern + r")(\s|$|[\)\]\}])", re.IGNORECASE)
         self.numbers_regex = re.compile(r"\d+[\,\.]?[\d]+", re.IGNORECASE)
-        pass
+
+        self.useless_chars_regex = re.compile(r"[\(\){}\[\]]")
 
     def preprocess_data(self, products):
         for product in products:
@@ -109,18 +127,20 @@ class Preprocessor():
                 for num in found_number:
                     product.data["key_numbers"].add(num.lower().strip())
             else:
-                for word in ad["value"].lower().split():
+                for word in self._parse_word(ad):
                     product.data["key_words"].add(word)
 
     def _parse_value(self, property):
-
         unit = None
         numbers = self.numbers_regex.findall(property["value"])
         if len(numbers) != 0:
             numbers = [number.replace(",", ".") for number in numbers]
             unit_match = self.all_units_regex.search(
                 property["value"], re.IGNORECASE)
-            if unit_match is None:
+            if unit_match is not None:
+                if len(self.all_units_regex.findall(property["value"], re.IGNORECASE)) > 1:
+                    return None
+            else:
                 unit_match = self.all_units_regex.search(
                     property["value"], re.IGNORECASE)
             if unit_match is None:
@@ -129,14 +149,18 @@ class Preprocessor():
             # Unit found
             unit = unit_match.group(2)
             for unit_key in self.units:
-                if re.search(self.units[unit_key]["pattern"], unit) is not None:
-                    try:
-                        numbers = [str(round(float(
-                            number) * self.units[unit_key]["conversions"][unit])) for number in numbers]
-                        return [number + (self.units[unit_key]["default"] if self.units[unit_key]["default"] is not None else unit) for number in numbers]
-                    except:
-                        print("Error converting property number.")
-                        return None
+                if unit in self.units[unit_key]["pattern"].split("|"):
+                    # try:
+                    numbers = [str(round(float(
+                        number) * self.units[unit_key]["conversions"][unit])) for number in numbers]
+                    return [number + (self.units[unit_key]["default"] if self.units[unit_key]["default"] is not None else unit) for number in numbers]
+                    # except:
+                    #     print("Error converting property number.")
+                    #     return None
 
         else:  # number not found
             return None
+
+    def _parse_word(self, property):
+        temp = self.useless_chars_regex.sub("", property["value"])
+        return [x for x in temp.split() if len(x) > 1] 
