@@ -21,10 +21,10 @@ def create_index(name):
 def add_documents(ix, docs):
     writer = ix.writer()
     for [idx, doc] in enumerate(docs):
-        name=" ".join(doc.data['key_name']) if isinstance(doc.data['key_name'], set) else doc.data['key_name']
-        numbers=" ".join(doc.data['key_numbers']) if isinstance(doc.data['key_numbers'], set) else doc.data['key_numbers']
-        strings=" ".join(doc.data['key_words']) if isinstance(doc.data['key_words'], set) else doc.data['key_words']
-        if idx > 0 and idx % 10 == 0:
+        name=" ".join(doc.data['key_name'])
+        numbers=" ".join(doc.data['key_numbers'])
+        strings=" ".join(doc.data['key_words'])
+        if idx > 0 and idx % 100 == 0:
             print('added ' + str(idx) + ' documents...')
         writer.add_document(
             name=name,
@@ -35,17 +35,24 @@ def add_documents(ix, docs):
     writer.commit()
     print('added ' + str(len(docs)) + ' documents in total.')
 
-def search(ix, tags):       
-    match = []
+def search(ix, tags, max_results=3, use_what=['name']):      
+
+    matches = []
     with ix.searcher() as searcher:
-        name_terms = [Term('name', n) for n in tags["name"]]
-        #string_terms = [Term('strings', n) for n in tags["strings"]]
-        number_terms = [Term('numbers', n) for n in tags["numbers"]]
-        all_terms = [*name_terms, *number_terms]#, *string_terms]
+        all_terms = []
+        if 'name' in use_what:
+            all_terms.extend([Term('name', n) for n in tags["name"]])
+        if 'strings' in use_what:
+            all_terms.extend([Term('strings', n) for n in tags["strings"]])
+        if 'numbers' in use_what:
+            all_terms.extend([Term('numbers', n) for n in tags["numbers"]])
 
         q = Or(all_terms)
-        results = searcher.search(q, terms=True)
-        print(results[0].matched_terms())
+        results = searcher.search(q, terms=True, limit=max_results)
+        if(len(results) == 0):
+            return []
+        #print(results[0].matched_terms())
         #print([[x.score/len(all_terms), x] for x in results])
-        match = [results[0].score/len(all_terms), results[0]['id']]
-    return match
+        for i in range(min(max_results, len(results))):
+            matches.append([results[i].score/len(all_terms), results[i]['id'], results[i].matched_terms()]);
+    return matches
